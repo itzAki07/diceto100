@@ -137,18 +137,6 @@ i {
     transition: margin 0.3s;
 }
 
-.ion-ios-plus-outline:before {
-  content: '\f48a';
-}
-
-.ion-ios-loop:before {
-  content: '\f45a';
-}
-
-.ion-ios-download-outline:before {
-  content: '\f41f';
-}
-
 .btn-new { top: 45px;}
 .btn-roll { top: 403px;}
 .btn-hold { top: 467px;}
