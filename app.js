@@ -7,12 +7,18 @@ GAME RULES:
 - BUT, if the player rolls a 1, all his ROUND score gets lost. After that, it's the next player's turn
 - The player can choose to 'Hold', which means that his ROUND score gets added to his GLBAL score. After that, it's the next player's turn
 - The first player to reach 100 points on GLOBAL score wins the game
+- If you role 2 six together then you will lose all the score
+- You can set your own Final Score in the input field
 
 */
+
+// https://itzaki07.github.io/diceto100/index.html
 
 var scores, roundScore, activePlayer, gamePlaying;
 
 init();
+
+var lastDice;
 
 document.querySelector('.btn-roll').addEventListener('click', function() {
   if (gamePlaying) {
@@ -21,7 +27,11 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     diceDOM.style.display = 'block';
     diceDOM.src = 'dice-' + dice + '.png';
 
-    if (dice !== 1) {
+    if (dice === 6 && lastDice === 6) {
+      scores[activePlayer] = 0;
+      document.querySelector('#score-' + activePlayer).textContent = '0';
+      nextPlayer();
+    } else if (dice !== 1) {
       roundScore += dice;
       document.querySelector(
         '#current-' + activePlayer
@@ -29,6 +39,7 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     } else {
       nextPlayer();
     }
+    lastDice = dice;
   }
 });
 
@@ -38,7 +49,15 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
     document.querySelector('#score-' + activePlayer).textContent =
       scores[activePlayer];
 
-    if (scores[activePlayer] >= 100) {
+    var input = document.querySelector('.final-score').value;
+    var winningScore;
+    if (input) {
+      winningScore = input;
+    } else {
+      winningScore = 100;
+    }
+
+    if (scores[activePlayer] >= winningScore) {
       document.querySelector('#name-' + activePlayer).textContent = 'Winner';
       document.querySelector('.dice').style.display = 'none';
       document
@@ -87,5 +106,3 @@ function init() {
   document.querySelector('.player-1-panel').classList.remove('active');
   document.querySelector('.player-0-panel').classList.add('active');
 }
-// document.querySelector('#current-' + activePlayer).textContent = dice;
-// var x = document.querySelector('#score-0').textContent;
